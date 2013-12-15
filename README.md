@@ -1,6 +1,6 @@
 #AndroidResideMenu
-
 ------
+### 中文说明请点击 [这里][4]
 
 The idea of ResideMenu is from Dribble [1][1] and [2][2]. It has come true and run in iOS devices. [iOS ResideMenu][3]
 This project is the RefsideMenu Android version. The visual effect is partly referred to iOS version of ResideMenu.
@@ -9,7 +9,6 @@ And thanks to the authors for the above idea and contribution.
 <img src="https://github.com/SpecialCyCi/AndroidResideMenu/raw/master/2.gif" width="320" height="568" />
 
 ## DEMO
-
 This copy is the demo.
 
 ## Requirements
@@ -86,8 +85,8 @@ So that in ignored view’s workplace, the slipping gesture will not be allowed 
 A student from SCAU China.<br>
 Email: specialcyci#gmail.com
 
+
   [1]: http://dribbble.com/shots/1116265-Instasave-iPhone-App
   [2]: http://dribbble.com/shots/1114754-Social-Feed-iOS7
   [3]: https://github.com/romaonthego/RESideMenu
-  [4]: http://dribbble.com/shots/1116265-Instasave-iPhone-App
-  [5]: http://dribbble.com/shots/1114754-Social-Feed-iOS7
+  [4]: https://github.com/SpecialCyCi/AndroidResideMenu/blob/master/README_CN.md
