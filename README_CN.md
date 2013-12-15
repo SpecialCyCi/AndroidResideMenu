@@ -2,30 +2,28 @@
 
 ------
 
-The idea of ResideMenu is from Dribble [1][1] and [2][2]. It has come true and run in iOS devices. [iOS ResideMenu][3]
-This project is the RefsideMenu Android version. The visual effect is partly referred to iOS version of ResideMenu.
-And thanks to the authors for the above idea and contribution.
+ReisdeMenu 创意灵感来自于Dribbble[1][1]还有[2][2]，而这个是Android版的ResideMenu，在视觉效果上部分参考了[iOS版的RESideMenu][3]，并在此感谢以上作者的贡献。
 <img src="https://github.com/SpecialCyCi/AndroidResideMenu/raw/master/1.png" width="320" height="568" />
 <img src="https://github.com/SpecialCyCi/AndroidResideMenu/raw/master/2.gif" width="320" height="568" />
 
 ## DEMO
 
-This copy is the demo.
+本代码即是DEMO，您可以下载后选择您喜欢的IDE运行。SDK版本建议使用4.0以上
 
 ## Requirements
 
-Run in Android 2.3 +
+运行在 Android 2.3 +
 
 ## Installation
 
-If you want to merge ResideMenu with your project, you should follow these steps.
+如果您需要将ResideMenu使用在您的项目中，您需要完成以下步骤
 
-### 1. Copy all files from src/com/special/ResideMenu to your project.
-### 2. Copy libs/nineoldandroids-library-2.4.0.jar to your project’s corresponding path: libs/
-### 3. Copy res/drawable-hdpi/shadow.9.png to your project’s corresponding path: res/drawabl e-hdpi/
+### 1. 复制src/com/special/ResideMenu下的所有代码到您的项目相应位置
+### 2. 复制libs/nineoldandroids-library-2.4.0.jar到您项目libs/下
+### 3. 复制res/drawable-hdpi/shadow.9.png到您的项目相应位置
 
 ## Usage
-init ResideMenu: write these code in Activity onCreate()
+写在Activity onCreate()中
 ```java
         // attach to current activity;
         resideMenu = new ResideMenu(this);
@@ -42,22 +40,22 @@ init ResideMenu: write these code in Activity onCreate()
             resideMenu.addMenuItem(item);
         }
 ```
-If you want to use slipping gesture to operate(lock/unlock) the menu, override this code in Acitivity dispatchTouchEvent() (please duplicate the followed code in dispatchTouchEvent() of Activity.
+如果您需要使用手势滑动开启/关闭菜单，请复写activity的dispatchTouchEvent()，代码如下
 ```java
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         return resideMenu.onInterceptTouchEvent(ev) || super.dispatchTouchEvent(ev);
     }
 ```
-**On some occasions, the slipping gesture function for locking/unlocking menu, may have conflicts with your widgets, such as viewpager. By then you can add the viewpager to ignored view, please refer to next chapter – Ignored Views.**
+**在某些场景下，手势滑动开启/关闭菜单可能与您的某些控件产生冲突，例如viewpager，这时您可以把viewpager添加到ignored view.请参见下节Ignored Views**
 
-open/close menu
+开启/关闭菜单
+open or close menu
 ```java
 resideMenu.openMenu();
 resideMenu.closeMenu();
 ```
-
-listen in the menu state
+监听菜单状态
 ```java
     resideMenu.setMenuListener(menuListener);
     private ResideMenu.OnMenuListener menuListener = new ResideMenu.OnMenuListener() {
@@ -74,20 +72,20 @@ listen in the menu state
 ```
 
 ##Ignored Views
-On some occasions, the slipping gesture function for locking/unlocking menu, may have conflicts with your widgets such as viewpager.By then you can add the viewpager to ignored view.
+在某些场景下，手势滑动开启/关闭菜单可能与您的某些控件产生冲突，例如viewpager，这时您可以把viewpager添加到ignored view.
 ```java
         // add gesture operation's ignored views
         FrameLayout ignored_view = (FrameLayout) findViewById(R.id.ignored_view);
         resideMenu.addIgnoredView(ignored_view);
 ```
-So that in ignored view’s workplace, the slipping gesture will not be allowed to operate menu.
+这样子在ignored_view操作的区域就不允许用手势滑动操作菜单.
 
 ##About me
 A student from SCAU China.<br>
 Email: specialcyci#gmail.com
 
-  [1]: http://dribbble.com/shots/1116265-Instasave-iPhone-App
-  [2]: http://dribbble.com/shots/1114754-Social-Feed-iOS7
-  [3]: https://github.com/romaonthego/RESideMenu
-  [4]: http://dribbble.com/shots/1116265-Instasave-iPhone-App
-  [5]: http://dribbble.com/shots/1114754-Social-Feed-iOS7
+[1]: http://dribbble.com/shots/1116265-Instasave-iPhone-App
+[2]: http://dribbble.com/shots/1114754-Social-Feed-iOS7
+[3]: https://github.com/romaonthego/RESideMenu
+[4]: http://dribbble.com/shots/1116265-Instasave-iPhone-App
+[5]: http://dribbble.com/shots/1114754-Social-Feed-iOS7
