@@ -21,7 +21,8 @@ If you want to merge ResideMenu with your project, you should follow these steps
 
 ### 1. Copy all files from src/com/special/ResideMenu to your project.
 ### 2. Copy libs/nineoldandroids-library-2.4.0.jar to your project’s corresponding path: libs/
-### 3. Copy res/drawable-hdpi/shadow.9.png to your project’s corresponding path: res/drawabl e-hdpi/
+### 3. Copy res/drawable-hdpi/shadow.9.png to your project’s corresponding path: res/drawable-hdpi/
+### 4. Copy res/layout/residemenu.xml and residemenu_item.xml to your project’s corresponding path: res/layout
 
 ## Usage
 init ResideMenu: write these code in Activity onCreate()

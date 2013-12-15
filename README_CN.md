@@ -21,6 +21,7 @@ ReisdeMenu 创意灵感来自于Dribbble[1][1]还有[2][2]，而这个是Android
 ### 1. 复制src/com/special/ResideMenu下的所有代码到您的项目相应位置
 ### 2. 复制libs/nineoldandroids-library-2.4.0.jar到您项目libs/下
 ### 3. 复制res/drawable-hdpi/shadow.9.png到您的项目相应位置
+### 4. 复制res/layout/residemenu.xml 和 residemenu_item.xml到您的项目相应位置
 
 ## Usage
 写在Activity onCreate()中
