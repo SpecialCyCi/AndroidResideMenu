@@ -54,13 +54,19 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
         resideMenu.addMenuItem(itemProfile);
         resideMenu.addMenuItem(itemCalendar);
         resideMenu.addMenuItem(itemSettings);
+
+        findViewById(R.id.title_bar_menu).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                resideMenu.openMenu();
+            }
+        });
     }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         return resideMenu.onInterceptTouchEvent(ev) || super.dispatchTouchEvent(ev);
     }
-
 
     @Override
     public void onClick(View view) {
@@ -69,7 +75,6 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
             changeFragment(new HomeFragment());
         }else if (view == itemProfile){
             changeFragment(new ProfileFragment());
-            System.out.println("profile click");
         }else if (view == itemCalendar){
         }else if (view == itemSettings){
 
@@ -91,6 +96,7 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
     };
 
     private void changeFragment(Fragment targetFragment){
+        resideMenu.clearIgnoredViewList();
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.main_fragment, targetFragment, "fragment")
