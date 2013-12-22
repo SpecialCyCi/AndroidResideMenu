@@ -76,8 +76,9 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
         }else if (view == itemProfile){
             changeFragment(new ProfileFragment());
         }else if (view == itemCalendar){
+            changeFragment(new CalendarFragment());
         }else if (view == itemSettings){
-
+            changeFragment(new SettingsFragment());
         }
 
         resideMenu.closeMenu();
