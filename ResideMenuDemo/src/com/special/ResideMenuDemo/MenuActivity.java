@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 import com.special.ResideMenu.ResideMenu;
 import com.special.ResideMenu.ResideMenuItem;
 
@@ -34,6 +35,7 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
         resideMenu = new ResideMenu(this);
         resideMenu.setBackground(R.drawable.menu_background);
         resideMenu.attachToActivity(this);
+        resideMenu.setMenuListener(menuListener);
 
         // create menu items;
         String titles[] = { "Home", "Profile", "Calendar", "Settings" };
@@ -56,6 +58,18 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
     public void onClick(View view) {
         resideMenu.closeMenu();
     }
+
+    private ResideMenu.OnMenuListener menuListener = new ResideMenu.OnMenuListener() {
+        @Override
+        public void openMenu() {
+            Toast.makeText(mContext, "Menu is opened!", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void closeMenu() {
+            Toast.makeText(mContext, "Menu is closed!", Toast.LENGTH_SHORT).show();
+        }
+    };
 
     private void changeFragment(Fragment targetFragment){
         fragmentTransaction.replace(R.id.main_fragment, targetFragment);
