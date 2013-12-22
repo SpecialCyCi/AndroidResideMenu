@@ -1,4 +1,4 @@
-package com.special.ResideMenu.menu;
+package com.special.ResideMenu;
 
 import android.content.Context;
 import android.view.LayoutInflater;

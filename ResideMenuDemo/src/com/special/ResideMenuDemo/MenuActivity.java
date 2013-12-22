@@ -7,8 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
-import com.special.ResideMenu.menu.ResideMenu;
-import com.special.ResideMenu.menu.ResideMenuItem;
+import com.special.ResideMenu.ResideMenu;
+import com.special.ResideMenu.ResideMenuItem;
 
 public class MenuActivity extends Activity implements View.OnClickListener{
 

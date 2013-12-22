@@ -11,13 +11,11 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/icon_calendar"
             android:id="@+id/iv_icon"/>
 
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="abc"
             android:textColor="@android:color/white"
             android:textSize="18sp"
             android:layout_marginLeft="10dp"
