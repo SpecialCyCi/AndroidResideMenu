@@ -61,4 +61,9 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
         fragmentTransaction.replace(R.id.main_fragment, targetFragment);
         fragmentTransaction.commit();
     }
+
+    // What good method is to access resideMenu？
+    public ResideMenu getResideMenu(){
+        return resideMenu;
+    }
 }
