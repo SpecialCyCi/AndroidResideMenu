@@ -14,7 +14,10 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
 
     private ResideMenu resideMenu;
     private MenuActivity mContext;
-    private FragmentTransaction fragmentTransaction;
+    private ResideMenuItem itemHome;
+    private ResideMenuItem itemProfile;
+    private ResideMenuItem itemCalendar;
+    private ResideMenuItem itemSettings;
 
     /**
      * Called when the activity is first created.
@@ -24,7 +27,6 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         mContext = this;
-        fragmentTransaction = getSupportFragmentManager().beginTransaction();
         setUpMenu();
         changeFragment(new HomeFragment());
     }
@@ -38,14 +40,20 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
         resideMenu.setMenuListener(menuListener);
 
         // create menu items;
-        String titles[] = { "Home", "Profile", "Calendar", "Settings" };
-        int icon[] = { R.drawable.icon_home, R.drawable.icon_profile, R.drawable.icon_calendar, R.drawable.icon_settings };
+        itemHome     = new ResideMenuItem(this, R.drawable.icon_home,     "Home");
+        itemProfile  = new ResideMenuItem(this, R.drawable.icon_profile,  "Profile");
+        itemCalendar = new ResideMenuItem(this, R.drawable.icon_calendar, "Calendar");
+        itemSettings = new ResideMenuItem(this, R.drawable.icon_settings, "Settings");
 
-        for (int i = 0; i < titles.length; i++){
-            ResideMenuItem item = new ResideMenuItem(this, icon[i], titles[i]);
-            item.setOnClickListener(this);
-            resideMenu.addMenuItem(item);
-        }
+        itemHome.setOnClickListener(this);
+        itemProfile.setOnClickListener(this);
+        itemCalendar.setOnClickListener(this);
+        itemSettings.setOnClickListener(this);
+
+        resideMenu.addMenuItem(itemHome);
+        resideMenu.addMenuItem(itemProfile);
+        resideMenu.addMenuItem(itemCalendar);
+        resideMenu.addMenuItem(itemSettings);
     }
 
     @Override
@@ -56,6 +64,17 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
 
     @Override
     public void onClick(View view) {
+
+        if (view == itemHome){
+            changeFragment(new HomeFragment());
+        }else if (view == itemProfile){
+            changeFragment(new ProfileFragment());
+            System.out.println("profile click");
+        }else if (view == itemCalendar){
+        }else if (view == itemSettings){
+
+        }
+
         resideMenu.closeMenu();
     }
 
@@ -72,8 +91,12 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
     };
 
     private void changeFragment(Fragment targetFragment){
-        fragmentTransaction.replace(R.id.main_fragment, targetFragment);
-        fragmentTransaction.commit();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main_fragment, targetFragment, "fragment")
+                .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .addToBackStack(null)
+                .commit();
     }
 
     // What good method is to access resideMenu？

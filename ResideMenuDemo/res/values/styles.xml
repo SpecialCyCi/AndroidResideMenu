@@ -2,6 +2,6 @@
 <resources>
     <style name="fragment_text">
         <item name="android:textColor">#ffacacac</item>
-        <item name="android:textSize">17sp</item>
+        <item name="android:textSize">20sp</item>
     </style>
 </resources>
