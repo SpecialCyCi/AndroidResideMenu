@@ -1,8 +1,8 @@
 #AndroidResideMenu
 ------
-### 中文说明请点击 [这里][4]
+### 中文说明请点击 [这里][1]
 
-The idea of ResideMenu is from Dribble [1][1] and [2][2]. It has come true and run in iOS devices. [iOS ResideMenu][3]
+The idea of ResideMenu is from Dribble [1][2] and [2][3]. It has come true and run in iOS devices. [iOS ResideMenu][4]
 This project is the RefsideMenu Android version. The visual effect is partly referred to iOS version of ResideMenu.
 And thanks to the authors for the above idea and contribution.
 <img src="https://github.com/SpecialCyCi/AndroidResideMenu/raw/master/1.png" width="320" height="568" />
@@ -17,12 +17,18 @@ Run in Android 2.3 +
 
 ## Installation
 
+ 1. import ResideMenu project to your workspace.
+ 2. make it as a dependency library project to your main project.
+<br>**( see [example][5] )**
+
+**or**
+
 If you want to merge ResideMenu with your project, you should follow these steps.
 
-### 1. Copy all files from src/com/special/ResideMenu to your project.
-### 2. Copy libs/nineoldandroids-library-2.4.0.jar to your project’s corresponding path: libs/
-### 3. Copy res/drawable-hdpi/shadow.9.png to your project’s corresponding path: res/drawable-hdpi/
-### 4. Copy res/layout/residemenu.xml and residemenu_item.xml to your project’s corresponding path: res/layout
+ 1. Copy all files from src/com/special/ResideMenu to your project.
+ 2. Copy libs/nineoldandroids-library-2.4.0.jar to your project’s corresponding path: libs/
+ 3. Copy res/drawable-hdpi/shadow.9.png to your project’s corresponding path: res/drawable-hdpi/
+ 4. Copy res/layout/residemenu.xml and residemenu_item.xml to your project’s corresponding path: res/layout
 
 ## Usage
 init ResideMenu: write these code in Activity onCreate()
@@ -87,7 +93,8 @@ A student from SCAU China.<br>
 Email: specialcyci#gmail.com
 
 
-  [1]: http://dribbble.com/shots/1116265-Instasave-iPhone-App
-  [2]: http://dribbble.com/shots/1114754-Social-Feed-iOS7
-  [3]: https://github.com/romaonthego/RESideMenu
-  [4]: https://github.com/SpecialCyCi/AndroidResideMenu/blob/master/README_CN.md
+  [1]: https://github.com/SpecialCyCi/AndroidResideMenu/blob/master/README_CN.md
+  [2]: http://dribbble.com/shots/1116265-Instasave-iPhone-App
+  [3]: http://dribbble.com/shots/1114754-Social-Feed-iOS7
+  [4]: https://github.com/romaonthego/RESideMenu
+  [5]: https://github.com/SpecialCyCi/AndroidResideMenu/blob/master/ResideMenuDemo/project.properties

@@ -16,12 +16,16 @@ ReisdeMenu 创意灵感来自于Dribbble[1][1]还有[2][2]，而这个是Android
 
 ## Installation
 
-如果您需要将ResideMenu使用在您的项目中，您需要完成以下步骤
+ 直接导入ResideMenu项目并作为依赖项目<br>
+ **[例子][6]**
 
-### 1. 复制src/com/special/ResideMenu下的所有代码到您的项目相应位置
-### 2. 复制libs/nineoldandroids-library-2.4.0.jar到您项目libs/下
-### 3. 复制res/drawable-hdpi/shadow.9.png到您的项目相应位置
-### 4. 复制res/layout/residemenu.xml 和 residemenu_item.xml到您的项目相应位置
+**or**
+ 直接合并到您的项目之中
+
+ 1. 复制src/com/special/ResideMenu下的所有代码到您的项目相应位置
+ 2. 复制libs/nineoldandroids-library-2.4.0.jar到您项目libs/下
+ 3. 复制res/drawable-hdpi/shadow.9.png到您的项目相应位置
+ 4. 复制res/layout/residemenu.xml 和 residemenu_item.xml到您的项目相应位置
 
 ## Usage
 写在Activity onCreate()中
@@ -90,3 +94,4 @@ Email: specialcyci#gmail.com
 [3]: https://github.com/romaonthego/RESideMenu
 [4]: http://dribbble.com/shots/1116265-Instasave-iPhone-App
 [5]: http://dribbble.com/shots/1114754-Social-Feed-iOS7
+[6]: https://github.com/SpecialCyCi/AndroidResideMenu/blob/master/ResideMenuDemo/project.properties
