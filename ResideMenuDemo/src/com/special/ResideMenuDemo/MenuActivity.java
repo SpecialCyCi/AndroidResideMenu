@@ -102,7 +102,6 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
                 .beginTransaction()
                 .replace(R.id.main_fragment, targetFragment, "fragment")
                 .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                .addToBackStack(null)
                 .commit();
     }
 
