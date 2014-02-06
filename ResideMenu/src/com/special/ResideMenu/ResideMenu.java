@@ -130,6 +130,7 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
      * @param menuItems
      */
     public void setMenuItems(List<ResideMenuItem> menuItems){
+        layout_menu.removeAllViews();
         this.menuItems = menuItems;
     }
 
@@ -214,7 +215,6 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
         @Override
         public void onAnimationStart(Animator animation) {
             if (isOpened){
-                layout_menu.removeAllViews();
                 showMenuDelay();
                 if (menuListener != null)
                     menuListener.openMenu();
@@ -244,7 +244,6 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
     };
 
     private void showMenuDelay(){
-        layout_menu.removeAllViews();
         for(int i = 0; i < menuItems.size() ; i ++)
             showMenuItem(menuItems.get(i), i);
     }
@@ -257,7 +256,9 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
      */
     private void showMenuItem(ResideMenuItem menuItem,int menu_index){
 
-        layout_menu.addView(menuItem);
+        if(menuItem.getParent() == null)
+            layout_menu.addView(menuItem);
+
         ViewHelper.setAlpha(menuItem, 0);
         AnimatorSet scaleUp = new AnimatorSet();
         scaleUp.playTogether(
