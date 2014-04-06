@@ -31,10 +31,6 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
     private ImageView iv_background;
     private LinearLayout layout_menu;
     private ScrollView sv_menu;
-    private AnimatorSet scaleUp_shadow;
-    private AnimatorSet scaleUp_activity;
-    private AnimatorSet scaleDown_activity;
-    private AnimatorSet scaleDown_shadow;
     /** the activity that view attach to */
     private Activity activity;
     /** the decorview of the activity    */
@@ -44,12 +40,15 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
     /** the flag of menu open status     */
     private boolean              isOpened;
     private GestureDetector gestureDetector;
-    private float shadow_ScaleX;
+    private float shadow_AdjustScaleX;
+    private float shadow_AdjustScaleY;
     /** the view which don't want to intercept touch event */
     private List<View> ignoredViews;
     private List<ResideMenuItem> menuItems;
     private DisplayMetrics displayMetrics = new DisplayMetrics();
     private OnMenuListener menuListener;
+    private float lastRawX;
+    private boolean canScale = false;
 
     public ResideMenu(Context context) {
         super(context);
@@ -72,8 +71,11 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
      */
     public void attachToActivity(Activity activity){
         initValue(activity);
-        setShadowScaleXByOrientation();
-        buildAnimationSet();
+        setShadowAdjustScaleXByOrientation();
+        view_decor.addView(this, 0);
+        setViewPadding();
+        setPivot(view_activity);
+        setPivot(iv_shadow);
     }
 
     private void initValue(Activity activity){
@@ -81,16 +83,18 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
         menuItems       = new ArrayList<ResideMenuItem>();
         gestureDetector = new GestureDetector(this);
         ignoredViews    = new ArrayList<View>();
-        view_decor      = (ViewGroup)activity.getWindow().getDecorView();
+        view_decor      = (ViewGroup) activity.getWindow().getDecorView();
         view_activity   = (ViewGroup) view_decor.getChildAt(0);
     }
 
-    private void setShadowScaleXByOrientation(){
+    private void setShadowAdjustScaleXByOrientation(){
         int orientation = getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            shadow_ScaleX = 0.5335f;
+            shadow_AdjustScaleX = 0.034f;
+            shadow_AdjustScaleY = 0.12f;
         } else if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-            shadow_ScaleX = 0.56f;
+            shadow_AdjustScaleX = 0.06f;
+            shadow_AdjustScaleY = 0.07f;
         }
     }
 
@@ -122,6 +126,7 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
      */
     public void addMenuItem(ResideMenuItem menuItem){
         this.menuItems.add(menuItem);
+        layout_menu.addView(menuItem);
     }
 
     /**
@@ -132,6 +137,8 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
     public void setMenuItems(List<ResideMenuItem> menuItems){
         layout_menu.removeAllViews();
         this.menuItems = menuItems;
+        for(int i = 0; i < menuItems.size() ; i ++)
+            layout_menu.addView(menuItems.get(i), i);
     }
 
     public List<ResideMenuItem> getMenuItems() {
@@ -168,25 +175,28 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
      * show the reside menu;
      */
     public void openMenu(){
-        if(!isOpened){
-            isOpened = true;
-            showOpenMenuRelative();
-        }
-    }
-
-    private void removeMenuLayout(){
-        ViewGroup parent = ((ViewGroup) sv_menu.getParent());
-        parent.removeView(sv_menu);
+        isOpened = true;
+        AnimatorSet scaleDown_activity = buildScaleDownAnimation(view_activity, 0.5f, 0.5f);
+        AnimatorSet scaleDown_shadow = buildScaleDownAnimation(iv_shadow, 0.5f + shadow_AdjustScaleX, 0.5f + shadow_AdjustScaleY);
+        AnimatorSet alpha_menu = buildMenuAnimation(sv_menu, 1.0f);
+        scaleDown_shadow.addListener(animationListener);
+        scaleDown_activity.playTogether(scaleDown_shadow);
+        scaleDown_activity.playTogether(alpha_menu);
+        scaleDown_activity.start();
     }
 
     /**
      * close the reslide menu;
      */
     public void closeMenu(){
-        if(isOpened){
-            isOpened = false;
-            scaleUp_activity.start();
-        }
+        isOpened = false;
+        AnimatorSet scaleUp_activity = buildScaleUpAnimation(view_activity, 1.0f, 1.0f);
+        AnimatorSet scaleUp_shadow = buildScaleUpAnimation(iv_shadow, 1.0f, 1.0f);
+        AnimatorSet alpha_menu = buildMenuAnimation(sv_menu, 0.0f);
+        scaleUp_activity.addListener(animationListener);
+        scaleUp_activity.playTogether(scaleUp_shadow);
+        scaleUp_activity.playTogether(alpha_menu);
+        scaleUp_activity.start();
     }
 
     /**
@@ -198,24 +208,11 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
         return isOpened;
     }
 
-    /**
-     *  call the method relative to open menu;
-     */
-    private void showOpenMenuRelative(){
-        setViewPadding();
-        scaleDown_activity.start();
-        // remove self if has not remove
-        if (getParent() != null) view_decor.removeView(this);
-        if (sv_menu.getParent() != null) removeMenuLayout();
-        view_decor.addView(this, 0);
-        view_decor.addView(sv_menu);
-    }
-
     private Animator.AnimatorListener animationListener = new Animator.AnimatorListener() {
         @Override
         public void onAnimationStart(Animator animation) {
             if (isOpened){
-                showMenuDelay();
+                sv_menu.setVisibility(VISIBLE);
                 if (menuListener != null)
                     menuListener.openMenu();
             }
@@ -225,8 +222,7 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
         public void onAnimationEnd(Animator animation) {
             // reset the view;
             if(!isOpened){
-                view_decor.removeView(ResideMenu.this);
-                view_decor.removeView(sv_menu);
+                sv_menu.setVisibility(GONE);
                 if (menuListener != null)
                     menuListener.closeMenu();
             }
@@ -243,45 +239,13 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
         }
     };
 
-    private void showMenuDelay(){
-        for(int i = 0; i < menuItems.size() ; i ++)
-            showMenuItem(menuItems.get(i), i);
-    }
+    private void setPivot(View target){
+        // set the pivotX and pivotY to scale;
+        int pivotX = (int) (getScreenWidth()  * 1.5);
+        int pivotY = (int) (getScreenHeight() * 0.5);
 
-    /**
-     *
-     * @param menuItem
-     * @param menu_index the position of the menu;
-     * @return
-     */
-    private void showMenuItem(ResideMenuItem menuItem,int menu_index){
-
-        if(menuItem.getParent() == null)
-            layout_menu.addView(menuItem);
-
-        ViewHelper.setAlpha(menuItem, 0);
-        AnimatorSet scaleUp = new AnimatorSet();
-        scaleUp.playTogether(
-                ObjectAnimator.ofFloat(menuItem, "translationX", -100.f, 0.0f),
-                ObjectAnimator.ofFloat(menuItem, "alpha", 0.0f, 1.0f)
-        );
-
-        scaleUp.setInterpolator(AnimationUtils.loadInterpolator(activity,
-                android.R.anim.anticipate_overshoot_interpolator));
-        // with animation;
-        scaleUp.setStartDelay(50 * menu_index);
-        scaleUp.setDuration(400).start();
-    }
-
-    private void buildAnimationSet(){
-        scaleUp_activity   = buildScaleUpAnimation(view_activity,1.0f,1.0f);
-        scaleUp_shadow     = buildScaleUpAnimation(iv_shadow,1.0f,1.0f);
-        scaleDown_activity = buildScaleDownAnimation(view_activity,0.5f,0.5f);
-        scaleDown_shadow   = buildScaleDownAnimation(iv_shadow,shadow_ScaleX,0.59f);
-        scaleUp_activity.addListener(animationListener);
-        scaleUp_activity.playTogether(scaleUp_shadow);
-        scaleDown_shadow.addListener(animationListener);
-        scaleDown_activity.playTogether(scaleDown_shadow);
+        ViewHelper.setPivotX(target, pivotX);
+        ViewHelper.setPivotY(target, pivotY);
     }
 
     /**
@@ -294,12 +258,6 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
      */
     private AnimatorSet buildScaleDownAnimation(View target,float targetScaleX,float targetScaleY){
 
-        // set the pivotX and pivotY to scale;
-        int pivotX = (int) (getScreenWidth()  * 1.5);
-        int pivotY = (int) (getScreenHeight() * 0.5);
-
-        ViewHelper.setPivotX(target, pivotX);
-        ViewHelper.setPivotY(target, pivotY);
         AnimatorSet scaleDown = new AnimatorSet();
         scaleDown.playTogether(
                 ObjectAnimator.ofFloat(target, "scaleX", targetScaleX),
@@ -330,6 +288,17 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
 
         scaleUp.setDuration(250);
         return scaleUp;
+    }
+
+    private AnimatorSet buildMenuAnimation(View target, float alpha){
+
+        AnimatorSet alphaAnimation = new AnimatorSet();
+        alphaAnimation.playTogether(
+                ObjectAnimator.ofFloat(target, "alpha", alpha)
+        );
+
+        alphaAnimation.setDuration(250);
+        return alphaAnimation;
     }
 
     /**
@@ -385,9 +354,48 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
         return gestureDetector.onTouchEvent(event);
     }
 
+    private float getTargetScale(float currentRawX){
+        float scaleFloatX = ((currentRawX - lastRawX) / getScreenWidth()) * 0.75f;
+        float targetScale = ViewHelper.getScaleX(view_activity) - scaleFloatX;
+        targetScale = targetScale > 1.0f ? 1.0f : targetScale;
+        targetScale = targetScale < 0.5f ? 0.5f : targetScale;
+        return targetScale;
+    }
+
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        gestureDetector.onTouchEvent(ev);
+        float targetScale = getTargetScale(ev.getRawX());
+        float activityScale = ViewHelper.getScaleX(view_activity);
+
+        switch (ev.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                canScale = !isInIgnoredView(ev);
+                break;
+
+            case MotionEvent.ACTION_MOVE:
+                if (!canScale)
+                    break;
+                if (activityScale < 0.95)
+                    sv_menu.setVisibility(VISIBLE);
+                ViewHelper.setScaleX(view_activity, targetScale);
+                ViewHelper.setScaleY(view_activity, targetScale);
+                ViewHelper.setScaleX(iv_shadow, targetScale + shadow_AdjustScaleX);
+                ViewHelper.setScaleY(iv_shadow, targetScale + shadow_AdjustScaleY);
+                ViewHelper.setAlpha(sv_menu, ( 1 - targetScale ) * 2.0f);
+
+                break;
+
+            case MotionEvent.ACTION_UP:
+                if (!canScale)
+                    break;
+                if (activityScale > 0.75f){
+                    closeMenu();
+                }else{
+                    openMenu();
+                }
+                break;
+        }
+        lastRawX = ev.getRawX();
         return super.onInterceptTouchEvent(ev);
     }
 
@@ -408,7 +416,7 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
 
     @Override
     public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent2, float v, float v2) {
-        return false;
+        return true;
     }
 
     @Override
@@ -418,27 +426,6 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
 
     @Override
     public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent2, float v, float v2) {
-
-        if(isInIgnoredView(motionEvent) || isInIgnoredView(motionEvent2))
-            return false;
-
-        int distanceX    = (int) (motionEvent2.getX() - motionEvent.getX());
-        int distanceY    = (int) (motionEvent2.getY() - motionEvent.getY());
-        int screenWidth  = (int) getScreenWidth();
-
-        if(Math.abs(distanceY) > screenWidth * 0.3)
-            return false;
-
-        if(Math.abs(distanceX) > screenWidth * 0.3){
-            if(distanceX > 0 && !isOpened ){
-                // from left to right;
-                openMenu();
-            }else if(distanceX < 0 && isOpened){
-                // from right th left;
-                closeMenu();
-            }
-        }
-
         return false;
     }
 
