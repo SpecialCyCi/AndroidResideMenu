@@ -50,22 +50,23 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
         itemCalendar.setOnClickListener(this);
         itemSettings.setOnClickListener(this);
 
-        resideMenu.addMenuItem(itemHome);
-        resideMenu.addMenuItem(itemProfile);
-        resideMenu.addMenuItem(itemCalendar);
-        resideMenu.addMenuItem(itemSettings);
+        resideMenu.addMenuItem(itemHome, ResideMenu.DIRECTION_LEFT);
+        resideMenu.addMenuItem(itemProfile, ResideMenu.DIRECTION_LEFT);
+        resideMenu.addMenuItem(itemCalendar, ResideMenu.DIRECTION_RIGHT);
+        resideMenu.addMenuItem(itemSettings, ResideMenu.DIRECTION_RIGHT);
 
+        resideMenu.setDisableScaleDirection(ResideMenu.DIRECTION_RIGHT);
         findViewById(R.id.title_bar_menu).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                resideMenu.openMenu();
+                resideMenu.openMenu(ResideMenu.DIRECTION_LEFT);
             }
         });
     }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        return resideMenu.onInterceptTouchEvent(ev) || super.dispatchTouchEvent(ev);
+        return super.dispatchTouchEvent(ev) || resideMenu.onInterceptTouchEvent(ev);
     }
 
     @Override
