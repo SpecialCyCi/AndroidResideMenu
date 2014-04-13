@@ -245,9 +245,9 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
     public void openMenu(int direction){
         if (isInDisableDirection(direction))
             throw new IllegalArgumentException("You have set this direction disable, but now you want to open menu in this direction.");
+        setScaleDirection(direction);
 
         isOpened = true;
-        setScaleDirection(direction);
         AnimatorSet scaleDown_activity = buildScaleDownAnimation(view_activity, 0.5f, 0.5f);
         AnimatorSet scaleDown_shadow = buildScaleDownAnimation(iv_shadow, 0.5f + shadow_AdjustScaleX, 0.5f + shadow_AdjustScaleY);
         AnimatorSet alpha_menu = buildMenuAnimation(sv_menu, 1.0f);

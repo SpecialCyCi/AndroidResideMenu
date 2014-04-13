@@ -24,7 +24,7 @@
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:background="@drawable/titlebar_menu_selector"
-                    android:id="@+id/title_bar_menu"
+                    android:id="@+id/title_bar_left_menu"
                     android:layout_gravity="left|center_vertical"
                     android:layout_marginLeft="10dp"/>
 
@@ -36,6 +36,14 @@
                     android:textSize="24sp"
                     android:textColor="#999999"
                     android:layout_gravity="center"/>
+
+            <Button
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:background="@drawable/titlebar_menu_selector"
+                    android:id="@+id/title_bar_right_menu"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginRight="10dp"/>
         </FrameLayout>
 
         <ImageView
