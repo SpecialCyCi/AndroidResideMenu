@@ -57,6 +57,7 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
     private float lastRawX;
     private boolean canScale = false;
     private int scaleDirection = DIRECTION_LEFT;
+    private List<Integer> disableDirection = new ArrayList<Integer>();
 
     public ResideMenu(Context context) {
         super(context);
@@ -242,6 +243,9 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
      */
     @Deprecated
     public void openMenu(int direction){
+        if (isInDisableDirection(direction))
+            throw new IllegalArgumentException("You have set this direction disable, but now you want to open menu in this direction.");
+
         isOpened = true;
         setScaleDirection(direction);
         AnimatorSet scaleDown_activity = buildScaleDownAnimation(view_activity, 0.5f, 0.5f);
@@ -257,6 +261,7 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
      * close the reslide menu;
      */
     public void closeMenu(){
+
         isOpened = false;
         AnimatorSet scaleUp_activity = buildScaleUpAnimation(view_activity, 1.0f, 1.0f);
         AnimatorSet scaleUp_shadow = buildScaleUpAnimation(iv_shadow, 1.0f, 1.0f);
@@ -267,15 +272,16 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
         scaleUp_activity.start();
     }
 
-    private List<Integer> disableScaleDirection = new ArrayList<Integer>();
+    public void setDisableDirection(int direction){
+        disableDirection.add(direction);
+    }
 
-    public void setDisableScaleDirection(int direction){
-        disableScaleDirection.add(direction);
+    private boolean isInDisableDirection(int direction){
+        return disableDirection.contains(direction);
     }
 
     private void setScaleDirection(int direction){
-        if (disableScaleDirection.contains(direction))
-            return;
+
         int screenWidth = getScreenWidth();
         float pivotX;
         float pivotY = getScreenHeight() * 0.5f;
@@ -460,7 +466,9 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        float activityScale = ViewHelper.getScaleX(view_activity);
+        float currentActivityScaleX = ViewHelper.getScaleX(view_activity);
+        if (currentActivityScaleX == 1.0f)
+            setScaleDirectionByRawX(ev.getRawX());
 
         switch (ev.getAction()){
             case MotionEvent.ACTION_DOWN:
@@ -468,11 +476,9 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
                 break;
 
             case MotionEvent.ACTION_MOVE:
-                if (!canScale)
+                if (!canScale || isInDisableDirection(scaleDirection))
                     break;
-                if (activityScale == 1.0f)
-                    setScaleDirectionByRawX(ev.getRawX());
-                if (activityScale < 0.95)
+                if (currentActivityScaleX < 0.95)
                     sv_menu.setVisibility(VISIBLE);
 
                 float targetScale = getTargetScale(ev.getRawX());
@@ -480,13 +486,13 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
                 ViewHelper.setScaleY(view_activity, targetScale);
                 ViewHelper.setScaleX(iv_shadow, targetScale + shadow_AdjustScaleX);
                 ViewHelper.setScaleY(iv_shadow, targetScale + shadow_AdjustScaleY);
-                ViewHelper.setAlpha(sv_menu, ( 1 - targetScale ) * 2.0f);
+                ViewHelper.setAlpha(sv_menu, (1 - targetScale) * 2.0f);
                 break;
 
             case MotionEvent.ACTION_UP:
                 if (!canScale)
                     break;
-                if (activityScale > 0.75f){
+                if (currentActivityScaleX > 0.75f){
                     closeMenu();
                 }else{
                     openMenu(scaleDirection);

@@ -55,7 +55,7 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
         resideMenu.addMenuItem(itemCalendar, ResideMenu.DIRECTION_RIGHT);
         resideMenu.addMenuItem(itemSettings, ResideMenu.DIRECTION_RIGHT);
 
-        resideMenu.setDisableScaleDirection(ResideMenu.DIRECTION_RIGHT);
+        resideMenu.setDisableDirection(ResideMenu.DIRECTION_RIGHT);
         findViewById(R.id.title_bar_menu).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
