@@ -27,10 +27,15 @@ import java.util.List;
  */
 public class ResideMenu extends FrameLayout implements GestureDetector.OnGestureListener{
 
+    public static final int DIRECTION_LEFT  = 0;
+    public static final int DIRECTION_RIGHT = 1;
+
     private ImageView iv_shadow;
     private ImageView iv_background;
-    private LinearLayout layout_menu;
-    private ScrollView sv_menu;
+    private LinearLayout layout_left_menu;
+    private LinearLayout layout_right_menu;
+    private ScrollView sv_left_menu;
+    private ScrollView sv_right_menu;
     /** the activity that view attach to */
     private Activity activity;
     /** the decorview of the activity    */
@@ -44,7 +49,8 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
     private float shadow_AdjustScaleY;
     /** the view which don't want to intercept touch event */
     private List<View> ignoredViews;
-    private List<ResideMenuItem> menuItems;
+    private List<ResideMenuItem> leftMenuItems;
+    private List<ResideMenuItem> rightMenuItems;
     private DisplayMetrics displayMetrics = new DisplayMetrics();
     private OnMenuListener menuListener;
     private float lastRawX;
@@ -58,9 +64,11 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
     private void initViews(Context context){
         LayoutInflater inflater=(LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.residemenu, this);
-        sv_menu = (ScrollView) findViewById(R.id.sv_menu);
+        sv_left_menu = (ScrollView) findViewById(R.id.sv_left_menu);
+        sv_right_menu = (ScrollView) findViewById(R.id.sv_right_menu);
         iv_shadow = (ImageView) findViewById(R.id.iv_shadow);
-        layout_menu = (LinearLayout) findViewById(R.id.layout_menu);
+        layout_left_menu = (LinearLayout) findViewById(R.id.layout_left_menu);
+        layout_right_menu = (LinearLayout) findViewById(R.id.layout_right_menu);
         iv_background = (ImageView) findViewById(R.id.iv_background);
     }
 
@@ -80,7 +88,8 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
 
     private void initValue(Activity activity){
         this.activity   = activity;
-        menuItems       = new ArrayList<ResideMenuItem>();
+        leftMenuItems   = new ArrayList<ResideMenuItem>();
+        rightMenuItems  = new ArrayList<ResideMenuItem>();
         gestureDetector = new GestureDetector(this);
         ignoredViews    = new ArrayList<View>();
         view_decor      = (ViewGroup) activity.getWindow().getDecorView();
@@ -120,29 +129,86 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
     }
 
     /**
-     * add a single items;
+     * add a single items to left menu;
      *
      * @param menuItem
      */
+    @Deprecated
     public void addMenuItem(ResideMenuItem menuItem){
-        this.menuItems.add(menuItem);
-        layout_menu.addView(menuItem);
+        this.leftMenuItems.add(menuItem);
+        layout_left_menu.addView(menuItem);
+    }
+
+    /**
+     * add a single items;
+     *
+     * @param menuItem
+     * @param direction
+     */
+    public void addMenuItem(ResideMenuItem menuItem, int direction){
+        if (direction == DIRECTION_LEFT){
+            this.leftMenuItems.add(menuItem);
+            layout_left_menu.addView(menuItem);
+        }else{
+            this.rightMenuItems.add(menuItem);
+            layout_right_menu.addView(menuItem);
+        }
+    }
+
+    /**
+     * set the menu items by array list to left menu;
+     *
+     * @param menuItems
+     */
+    @Deprecated
+    public void setMenuItems(List<ResideMenuItem> menuItems){
+        this.leftMenuItems = menuItems;
+        rebuildMenu();
     }
 
     /**
      * set the menu items by array list;
      *
      * @param menuItems
+     * @param direction
      */
-    public void setMenuItems(List<ResideMenuItem> menuItems){
-        layout_menu.removeAllViews();
-        this.menuItems = menuItems;
-        for(int i = 0; i < menuItems.size() ; i ++)
-            layout_menu.addView(menuItems.get(i), i);
+    public void setMenuItems(List<ResideMenuItem> menuItems, int direction){
+        if (direction == DIRECTION_LEFT)
+            this.leftMenuItems = menuItems;
+        else
+            this.rightMenuItems = menuItems;
+        rebuildMenu();
     }
 
+    private void rebuildMenu(){
+        layout_left_menu.removeAllViews();
+        layout_right_menu.removeAllViews();
+        for(int i = 0; i < leftMenuItems.size() ; i ++)
+            layout_left_menu.addView(leftMenuItems.get(i), i);
+        for(int i = 0; i < rightMenuItems.size() ; i ++)
+            layout_right_menu.addView(rightMenuItems.get(i), i);
+    }
+
+    /**
+     * get the left menu items;
+     *
+     * @return
+     */
+    @Deprecated
     public List<ResideMenuItem> getMenuItems() {
-        return menuItems;
+        return leftMenuItems;
+    }
+
+    /**
+     * get the menu items;
+     *
+     * @return
+     */
+    public List<ResideMenuItem> getMenuItems(int direction) {
+        if ( direction == DIRECTION_LEFT)
+            return leftMenuItems;
+        else
+            return rightMenuItems;
     }
 
     /**
@@ -178,7 +244,7 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
         isOpened = true;
         AnimatorSet scaleDown_activity = buildScaleDownAnimation(view_activity, 0.5f, 0.5f);
         AnimatorSet scaleDown_shadow = buildScaleDownAnimation(iv_shadow, 0.5f + shadow_AdjustScaleX, 0.5f + shadow_AdjustScaleY);
-        AnimatorSet alpha_menu = buildMenuAnimation(sv_menu, 1.0f);
+        AnimatorSet alpha_menu = buildMenuAnimation(sv_left_menu, 1.0f);
         scaleDown_shadow.addListener(animationListener);
         scaleDown_activity.playTogether(scaleDown_shadow);
         scaleDown_activity.playTogether(alpha_menu);
@@ -192,7 +258,7 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
         isOpened = false;
         AnimatorSet scaleUp_activity = buildScaleUpAnimation(view_activity, 1.0f, 1.0f);
         AnimatorSet scaleUp_shadow = buildScaleUpAnimation(iv_shadow, 1.0f, 1.0f);
-        AnimatorSet alpha_menu = buildMenuAnimation(sv_menu, 0.0f);
+        AnimatorSet alpha_menu = buildMenuAnimation(sv_left_menu, 0.0f);
         scaleUp_activity.addListener(animationListener);
         scaleUp_activity.playTogether(scaleUp_shadow);
         scaleUp_activity.playTogether(alpha_menu);
@@ -212,7 +278,7 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
         @Override
         public void onAnimationStart(Animator animation) {
             if (isOpened){
-                sv_menu.setVisibility(VISIBLE);
+                sv_left_menu.setVisibility(VISIBLE);
                 if (menuListener != null)
                     menuListener.openMenu();
             }
@@ -222,7 +288,7 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
         public void onAnimationEnd(Animator animation) {
             // reset the view;
             if(!isOpened){
-                sv_menu.setVisibility(GONE);
+                sv_left_menu.setVisibility(GONE);
                 if (menuListener != null)
                     menuListener.closeMenu();
             }
@@ -376,12 +442,12 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
                 if (!canScale)
                     break;
                 if (activityScale < 0.95)
-                    sv_menu.setVisibility(VISIBLE);
+                    sv_left_menu.setVisibility(VISIBLE);
                 ViewHelper.setScaleX(view_activity, targetScale);
                 ViewHelper.setScaleY(view_activity, targetScale);
                 ViewHelper.setScaleX(iv_shadow, targetScale + shadow_AdjustScaleX);
                 ViewHelper.setScaleY(iv_shadow, targetScale + shadow_AdjustScaleY);
-                ViewHelper.setAlpha(sv_menu, ( 1 - targetScale ) * 2.0f);
+                ViewHelper.setAlpha(sv_left_menu, ( 1 - targetScale ) * 2.0f);
 
                 break;
 
