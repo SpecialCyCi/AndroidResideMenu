@@ -57,7 +57,7 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
     private float lastRawX;
     private boolean canScale = false;
     private int scaleDirection = DIRECTION_LEFT;
-    private List<Integer> disableDirection = new ArrayList<Integer>();
+    private List<Integer> disabledDirection = new ArrayList<Integer>();
 
     public ResideMenu(Context context) {
         super(context);
@@ -272,12 +272,12 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
         scaleUp_activity.start();
     }
 
-    public void setDisableDirection(int direction){
-        disableDirection.add(direction);
+    public void setDirectionDisable(int direction){
+        disabledDirection.add(direction);
     }
 
     private boolean isInDisableDirection(int direction){
-        return disableDirection.contains(direction);
+        return disabledDirection.contains(direction);
     }
 
     private void setScaleDirection(int direction){

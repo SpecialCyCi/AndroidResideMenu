@@ -42,7 +42,7 @@ ReisdeMenu 创意灵感来自于Dribbble[1][1]还有[2][2]，而这个是Android
         for (int i = 0; i < titles.length; i++){
             ResideMenuItem item = new ResideMenuItem(this, icon[i], titles[i]);
             item.setOnClickListener(this);
-            resideMenu.addMenuItem(item);
+            resideMenu.addMenuItem(item,  ResideMenu.DIRECTION_LEFT); // or  ResideMenu.DIRECTION_RIGHT
         }
 ```
 如果您需要使用手势滑动开启/关闭菜单，请复写activity的dispatchTouchEvent()，代码如下
@@ -57,7 +57,7 @@ ReisdeMenu 创意灵感来自于Dribbble[1][1]还有[2][2]，而这个是Android
 开启/关闭菜单
 open or close menu
 ```java
-resideMenu.openMenu();
+resideMenu.openMenu(ResideMenu.DIRECTION_LEFT); // or ResideMenu.DIRECTION_RIGHT
 resideMenu.closeMenu();
 ```
 监听菜单状态
@@ -75,6 +75,12 @@ resideMenu.closeMenu();
         }
     };
 ```
+
+禁止使用某个菜单方向
+```java
+  resideMenu.setDirectionDisable(ResideMenu.DIRECTION_RIGHT);
+```
+
 
 ##Ignored Views
 在某些场景下，手势滑动开启/关闭菜单可能与您的某些控件产生冲突，例如viewpager，这时您可以把viewpager添加到ignored view.

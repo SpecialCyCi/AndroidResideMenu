@@ -56,7 +56,7 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
         resideMenu.addMenuItem(itemSettings, ResideMenu.DIRECTION_RIGHT);
 
         // You can disable a direction by setting ->
-        //  resideMenu.setDisableDirection(ResideMenu.DIRECTION_RIGHT);
+        //  resideMenu.setDirectionDisable(ResideMenu.DIRECTION_RIGHT);
 
         findViewById(R.id.title_bar_left_menu).setOnClickListener(new View.OnClickListener() {
             @Override

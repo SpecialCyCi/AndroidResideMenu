@@ -45,7 +45,7 @@ init ResideMenu: write these code in Activity onCreate()
         for (int i = 0; i < titles.length; i++){
             ResideMenuItem item = new ResideMenuItem(this, icon[i], titles[i]);
             item.setOnClickListener(this);
-            resideMenu.addMenuItem(item);
+            resideMenu.addMenuItem(item,  ResideMenu.DIRECTION_LEFT); // or  ResideMenu.DIRECTION_RIGHT
         }
 ```
 If you want to use slipping gesture to operate(lock/unlock) the menu, override this code in Acitivity dispatchTouchEvent() (please duplicate the followed code in dispatchTouchEvent() of Activity.
@@ -59,7 +59,7 @@ If you want to use slipping gesture to operate(lock/unlock) the menu, override t
 
 open/close menu
 ```java
-resideMenu.openMenu();
+resideMenu.openMenu(ResideMenu.DIRECTION_LEFT); // or ResideMenu.DIRECTION_RIGHT
 resideMenu.closeMenu();
 ```
 
@@ -77,6 +77,11 @@ listen in the menu state
             Toast.makeText(mContext, "Menu is closed!", Toast.LENGTH_SHORT).show();
         }
     };
+```
+
+disable a direction
+```java
+  resideMenu.setDirectionDisable(ResideMenu.DIRECTION_RIGHT);
 ```
 
 ##Ignored Views
