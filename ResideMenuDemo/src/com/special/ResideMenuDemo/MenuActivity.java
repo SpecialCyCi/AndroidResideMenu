@@ -74,7 +74,7 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        return super.dispatchTouchEvent(ev) || resideMenu.onInterceptTouchEvent(ev);
+        return resideMenu.onInterceptTouchEvent(ev) || super.dispatchTouchEvent(ev);
     }
 
     @Override
