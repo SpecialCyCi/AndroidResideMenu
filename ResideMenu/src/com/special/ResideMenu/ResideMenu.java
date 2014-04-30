@@ -241,7 +241,6 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
     /**
      * show the reside menu;
      */
-    @Deprecated
     public void openMenu(int direction){
         if (isInDisableDirection(direction))
             throw new IllegalArgumentException("You have set this direction disable, but now you want to open menu in this direction.");
