@@ -42,7 +42,7 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
     /** the decorview of the activity    */
     private ViewGroup view_decor;
     /** the viewgroup of the activity    */
-    private ViewGroup view_activity;
+    private TouchDisableView view_activity;
     /** the flag of menu open status     */
     private boolean              isOpened;
     private GestureDetector gestureDetector;
@@ -94,7 +94,12 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
         gestureDetector = new GestureDetector(this);
         ignoredViews    = new ArrayList<View>();
         view_decor      = (ViewGroup) activity.getWindow().getDecorView();
-        view_activity   = (ViewGroup) view_decor.getChildAt(0);
+        view_activity   = new TouchDisableView(this.activity);
+
+        View mContent   = view_decor.getChildAt(0);
+        view_decor.removeViewAt(0);
+        view_activity.setContent(mContent);
+        view_decor.addView(view_activity, 0);
     }
 
     private void setShadowAdjustScaleXByOrientation(){
@@ -309,6 +314,13 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
         return isOpened;
     }
 
+    private OnClickListener viewActivityOnClickListener = new OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if (isOpened()) closeMenu();
+        }
+    };
+
     private Animator.AnimatorListener animationListener = new Animator.AnimatorListener() {
         @Override
         public void onAnimationStart(Animator animation) {
@@ -322,7 +334,12 @@ public class ResideMenu extends FrameLayout implements GestureDetector.OnGesture
         @Override
         public void onAnimationEnd(Animator animation) {
             // reset the view;
-            if(!isOpened){
+            if(isOpened){
+                view_activity.setTouchDisable(true);
+                view_activity.setOnClickListener(viewActivityOnClickListener);
+            }else{
+                view_activity.setTouchDisable(false);
+                view_activity.setOnClickListener(null);
                 sv_menu.setVisibility(GONE);
                 if (menuListener != null)
                     menuListener.closeMenu();
