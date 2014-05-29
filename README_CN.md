@@ -10,6 +10,19 @@ ReisdeMenu 创意灵感来自于Dribbble[1][1]还有[2][2]，而这个是Android
 
 本代码即是DEMO，您可以下载后选择您喜欢的IDE运行。SDK版本建议使用4.0以上
 
+## Version Migration
+
+#### 从 `v1.0`, `v1.1`, `v1.2`, `v1.3` 升级到 `v1.4`
+
+如果你开启了手势滑动，你需要替换被依附的 Activity 里 `dispatchTouchEvent()` 代码
+
+```java
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        return resideMenu.dispatchTouchEvent(ev);
+    }
+```
+
 ## Requirements
 
 运行在 Android 2.3 +
@@ -49,7 +62,7 @@ ReisdeMenu 创意灵感来自于Dribbble[1][1]还有[2][2]，而这个是Android
 ```java
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        return resideMenu.onInterceptTouchEvent(ev) || super.dispatchTouchEvent(ev);
+        return resideMenu.dispatchTouchEvent(ev);
     }
 ```
 **在某些场景下，手势滑动开启/关闭菜单可能与您的某些控件产生冲突，例如viewpager，这时您可以把viewpager添加到ignored view.请参见下节Ignored Views**
