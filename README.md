@@ -11,6 +11,19 @@ And thanks to the authors for the above idea and contribution.
 ## DEMO
 This copy is the demo.
 
+## Version Migration
+
+#### From `v1.3` to `v1.4`
+
+Duplicate the followed code in dispatchTouchEvent() of Activity, replace the old `dispatchTouchEvent()` code.
+
+```java
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        return resideMenu.dispatchTouchEvent(ev);
+    }
+```
+
 ## Requirements
 
 Run in Android 2.3 +
@@ -52,7 +65,7 @@ If you want to use slipping gesture to operate(lock/unlock) the menu, override t
 ```java
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        return resideMenu.onInterceptTouchEvent(ev) || super.dispatchTouchEvent(ev);
+        return resideMenu.dispatchTouchEvent(ev);
     }
 ```
 **On some occasions, the slipping gesture function for locking/unlocking menu, may have conflicts with your widgets, such as viewpager. By then you can add the viewpager to ignored view, please refer to next chapter – Ignored Views.**
