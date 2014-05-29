@@ -7,7 +7,7 @@
               android:targetSdkVersion="17"/>
     <application android:label="@string/app_name" android:icon="@drawable/ic_launcher">
         <activity android:name="MenuActivity"
-                  android:theme="@android:style/Theme.NoTitleBar"
+                  android:theme="@android:style/Theme.Light.NoTitleBar"
                   android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

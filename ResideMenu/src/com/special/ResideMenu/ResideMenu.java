@@ -331,7 +331,7 @@ public class ResideMenu extends FrameLayout{
     private Animator.AnimatorListener animationListener = new Animator.AnimatorListener() {
         @Override
         public void onAnimationStart(Animator animation) {
-            if (isOpened){
+            if (isOpened()){
                 scrollViewMenu.setVisibility(VISIBLE);
                 if (menuListener != null)
                     menuListener.openMenu();
@@ -341,7 +341,7 @@ public class ResideMenu extends FrameLayout{
         @Override
         public void onAnimationEnd(Animator animation) {
             // reset the view;
-            if(isOpened){
+            if(isOpened()){
                 viewActivity.setTouchDisable(true);
                 viewActivity.setOnClickListener(viewActivityOnClickListener);
             }else{

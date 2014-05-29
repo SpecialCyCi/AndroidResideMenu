@@ -13,7 +13,7 @@ This copy is the demo.
 
 ## Version Migration
 
-#### Upgrading to `1.4` from `1.3`, `1.2`, `1.1`, `1.0` 
+#### Upgrading to `v1.4` from `v1.3`, `v1.2`, `v1.1`, `v1.0` 
 
 Duplicate the followed code in dispatchTouchEvent() of Activity, replace the old `dispatchTouchEvent()` code.
 

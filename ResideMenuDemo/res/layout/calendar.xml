@@ -4,13 +4,8 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Calendar"
-            style="@style/fragment_text"
-            android:layout_gravity="center"
-            android:id="@+id/textView"/>
-
+    <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 </FrameLayout>
