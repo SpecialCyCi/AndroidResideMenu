@@ -5,9 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
+import android.widget.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +35,12 @@ public class CalendarFragment extends Fragment {
                 android.R.layout.simple_list_item_1,
                 getCalendarData());
         listView.setAdapter(arrayAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(getActivity(), "Clicked item!", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private ArrayList<String> getCalendarData(){
