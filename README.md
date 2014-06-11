@@ -92,9 +92,9 @@ listen in the menu state
     };
 ```
 
-disable a direction
+disable a swipe direction
 ```java
-  resideMenu.setDirectionDisable(ResideMenu.DIRECTION_RIGHT);
+  resideMenu.setSwipeDirectionDisable(ResideMenu.DIRECTION_RIGHT);
 ```
 
 ##Ignored Views

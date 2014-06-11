@@ -89,9 +89,9 @@ resideMenu.closeMenu();
     };
 ```
 
-禁止使用某个菜单方向
+禁止手势操作某个菜单方向
 ```java
-  resideMenu.setDirectionDisable(ResideMenu.DIRECTION_RIGHT);
+  resideMenu.setSwipeDirectionDisable(ResideMenu.DIRECTION_RIGHT);
 ```
 
 

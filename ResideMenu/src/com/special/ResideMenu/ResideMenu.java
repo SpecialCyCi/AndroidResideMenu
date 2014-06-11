@@ -62,7 +62,7 @@ public class ResideMenu extends FrameLayout{
     private boolean isInIgnoredView = false;
     private int scaleDirection = DIRECTION_LEFT;
     private int pressedState   = PRESSED_DOWN;
-    private List<Integer> disabledDirection = new ArrayList<Integer>();
+    private List<Integer> disabledSwipeDirection = new ArrayList<Integer>();
 
     public ResideMenu(Context context) {
         super(context);
@@ -252,9 +252,7 @@ public class ResideMenu extends FrameLayout{
      * show the reside menu;
      */
     public void openMenu(int direction){
-        if (isInDisableDirection(direction))
-            throw new IllegalArgumentException("You have set this direction disable, " +
-                    "but now you want to open menu in this direction.");
+
         setScaleDirection(direction);
 
         isOpened = true;
@@ -283,12 +281,17 @@ public class ResideMenu extends FrameLayout{
         scaleUp_activity.start();
     }
 
+    @Deprecated
     public void setDirectionDisable(int direction){
-        disabledDirection.add(direction);
+        disabledSwipeDirection.add(direction);
+    }
+
+    public void setSwipeDirectionDisable(int direction){
+        disabledSwipeDirection.add(direction);
     }
 
     private boolean isInDisableDirection(int direction){
-        return disabledDirection.contains(direction);
+        return disabledSwipeDirection.contains(direction);
     }
 
     private void setScaleDirection(int direction){
