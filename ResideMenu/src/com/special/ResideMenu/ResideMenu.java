@@ -63,7 +63,9 @@ public class ResideMenu extends FrameLayout{
     private int scaleDirection = DIRECTION_LEFT;
     private int pressedState   = PRESSED_DOWN;
     private List<Integer> disabledDirection = new ArrayList<Integer>();
-
+    //valid scale factor is between 0.0f and 1.0f.
+    private float mScaleValue = 0.5f;
+    
     public ResideMenu(Context context) {
         super(context);
         initViews(context);
@@ -258,9 +260,9 @@ public class ResideMenu extends FrameLayout{
         setScaleDirection(direction);
 
         isOpened = true;
-        AnimatorSet scaleDown_activity = buildScaleDownAnimation(viewActivity, 0.5f, 0.5f);
+        AnimatorSet scaleDown_activity = buildScaleDownAnimation(viewActivity, mScaleValue, mScaleValue);
         AnimatorSet scaleDown_shadow = buildScaleDownAnimation(imageViewShadow,
-                0.5f + shadowAdjustScaleX, 0.5f + shadowAdjustScaleY);
+        		mScaleValue + shadowAdjustScaleX, mScaleValue + shadowAdjustScaleY);
         AnimatorSet alpha_menu = buildMenuAnimation(scrollViewMenu, 1.0f);
         scaleDown_shadow.addListener(animationListener);
         scaleDown_activity.playTogether(scaleDown_shadow);
@@ -564,6 +566,10 @@ public class ResideMenu extends FrameLayout{
     public int getScreenWidth(){
         activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         return displayMetrics.widthPixels;
+    }
+    
+    public void setScaleValue(float scaleValue) {
+        this.mScaleValue = scaleValue;
     }
 
     public interface OnMenuListener{
