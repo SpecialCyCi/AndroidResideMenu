@@ -1,0 +1,11 @@
+include ':ResideMenu', ':ResideMenuDemo'
+
+//override your build tools version in gradle.properties
+
+if (!System.properties['buildToolsVersion']) {
+	System.properties['buildToolsVersion'] =  "19.1.0"
+}
+
+if (!System.properties['androidGradlePluginVersion']) {
+	System.properties['androidGradlePluginVersion'] = "0.12.+"
+}
