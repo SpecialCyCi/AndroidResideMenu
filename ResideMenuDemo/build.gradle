@@ -2,7 +2,7 @@ apply plugin: 'android'
 
 configurations {
     provided
-    compile.exclude module: 'support-v4' //避免preDex时候有多个项目的support-v4.jar依赖进来
+    compile.exclude module: 'support-v4'
 }
 
 sourceSets {

@@ -6,8 +6,6 @@ println "\tCharset.defaultCharset() = " + java.nio.charset.Charset.defaultCharse
 println "-------------------------------------------------\n"
 
 
-//配置extra属性之后，后面的子project需要用到这些属性的地方都直接调用rootProject.ext.XXX，避免修改的时候需要每个project里面都需要去检查、修改
-
 ext {
     compileSdkVersion = 19
     buildToolsVersion = System.properties['buildToolsVersion']
@@ -15,8 +13,6 @@ ext {
     targetSdkVersion = 14
 }
 
-
-//每个project构建过程中，都需要依赖gradle构建工具，所以在rootProject里面写一次就好了。
 buildscript {
     repositories {
         mavenCentral()
@@ -29,7 +25,6 @@ buildscript {
 
 allprojects {
 
-    //指定编码类型
     tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"
     }
