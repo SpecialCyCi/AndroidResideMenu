@@ -1,0 +1,31 @@
+println "-------------------------------------------------"
+println "Build ResideMenu with:\n\tbuildToolsVersion = " + System.properties['buildToolsVersion']
+println "\tandroidGradlePluginVersion = " + System.properties['androidGradlePluginVersion']
+println "\tfile.encoding = " + System.properties['file.encoding']
+println "\tCharset.defaultCharset() = " + java.nio.charset.Charset.defaultCharset().toString()
+println "-------------------------------------------------\n"
+
+
+ext {
+    compileSdkVersion = 19
+    buildToolsVersion = System.properties['buildToolsVersion']
+    minSdkVersion = 9
+    targetSdkVersion = 14
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:' + System.properties['androidGradlePluginVersion']
+    }
+}
+
+allprojects {
+
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+    }
+}
