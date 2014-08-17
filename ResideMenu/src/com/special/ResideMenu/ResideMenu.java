@@ -107,6 +107,10 @@ public class ResideMenu extends FrameLayout{
         viewDecor.removeViewAt(0);
         viewActivity.setContent(mContent);
         addView(viewActivity);
+
+        ViewGroup parent = (ViewGroup) scrollViewLeftMenu.getParent();
+        parent.removeView(scrollViewLeftMenu);
+        parent.removeView(scrollViewRightMenu);
     }
 
     private void setShadowAdjustScaleXByOrientation(){
@@ -337,7 +341,7 @@ public class ResideMenu extends FrameLayout{
         @Override
         public void onAnimationStart(Animator animation) {
             if (isOpened()){
-                scrollViewMenu.setVisibility(VISIBLE);
+                showScrollViewMenu();
                 if (menuListener != null)
                     menuListener.openMenu();
             }
@@ -352,7 +356,7 @@ public class ResideMenu extends FrameLayout{
             }else{
                 viewActivity.setTouchDisable(false);
                 viewActivity.setOnClickListener(null);
-                scrollViewMenu.setVisibility(GONE);
+                hideScrollViewMenu();
                 if (menuListener != null)
                     menuListener.closeMenu();
             }
@@ -520,7 +524,7 @@ public class ResideMenu extends FrameLayout{
                     }
                 } else if(pressedState == PRESSED_MOVE_HORIZANTAL) {
                     if (currentActivityScaleX < 0.95)
-                        scrollViewMenu.setVisibility(VISIBLE);
+                        showScrollViewMenu();
 
                     float targetScale = getTargetScale(ev.getRawX());
                     ViewHelper.setScaleX(viewActivity, targetScale);
@@ -588,4 +592,15 @@ public class ResideMenu extends FrameLayout{
         public void closeMenu();
     }
 
+    private void showScrollViewMenu(){
+        if (scrollViewMenu != null && scrollViewMenu.getParent() == null){
+            addView(scrollViewMenu);
+        }
+    }
+
+    private void hideScrollViewMenu(){
+        if (scrollViewMenu != null && scrollViewMenu.getParent() != null){
+            removeView(scrollViewMenu);
+        }
+    }
 }
