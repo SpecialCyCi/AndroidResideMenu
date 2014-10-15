@@ -28,7 +28,8 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
         setContentView(R.layout.main);
         mContext = this;
         setUpMenu();
-        changeFragment(new HomeFragment());
+        if( savedInstanceState == null )
+            changeFragment(new HomeFragment());
     }
 
     private void setUpMenu() {
