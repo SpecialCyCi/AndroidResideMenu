@@ -341,7 +341,7 @@ public class ResideMenu extends FrameLayout{
         @Override
         public void onAnimationStart(Animator animation) {
             if (isOpened()){
-                showScrollViewMenu();
+                showScrollViewMenu(scrollViewMenu);
                 if (menuListener != null)
                     menuListener.openMenu();
             }
@@ -356,7 +356,8 @@ public class ResideMenu extends FrameLayout{
             }else{
                 viewActivity.setTouchDisable(false);
                 viewActivity.setOnClickListener(null);
-                hideScrollViewMenu();
+                hideScrollViewMenu(scrollViewLeftMenu);
+                hideScrollViewMenu(scrollViewRightMenu);
                 if (menuListener != null)
                     menuListener.closeMenu();
             }
@@ -524,7 +525,7 @@ public class ResideMenu extends FrameLayout{
                     }
                 } else if(pressedState == PRESSED_MOVE_HORIZANTAL) {
                     if (currentActivityScaleX < 0.95)
-                        showScrollViewMenu();
+                        showScrollViewMenu(scrollViewMenu);
 
                     float targetScale = getTargetScale(ev.getRawX());
                     ViewHelper.setScaleX(viewActivity, targetScale);
@@ -592,13 +593,13 @@ public class ResideMenu extends FrameLayout{
         public void closeMenu();
     }
 
-    private void showScrollViewMenu(){
+    private void showScrollViewMenu(ScrollView scrollViewMenu){
         if (scrollViewMenu != null && scrollViewMenu.getParent() == null){
             addView(scrollViewMenu);
         }
     }
 
-    private void hideScrollViewMenu(){
+    private void hideScrollViewMenu(ScrollView scrollViewMenu){
         if (scrollViewMenu != null && scrollViewMenu.getParent() != null){
             removeView(scrollViewMenu);
         }
