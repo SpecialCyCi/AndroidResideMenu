@@ -82,6 +82,17 @@ public class ResideMenu extends FrameLayout{
         layoutRightMenu = (LinearLayout) findViewById(R.id.layout_right_menu);
         imageViewBackground = (ImageView) findViewById(R.id.iv_background);
     }
+    
+    @Override
+	protected boolean fitSystemWindows(Rect insets) {
+	    // Applies the content insets to the view's padding, consuming that content (modifying the insets to be 0), 
+	    // and returning true. This behavior is off by default and can be enabled through setFitsSystemWindows(boolean)
+	    // in api14+ devices.
+		this.setPadding(viewActivity.getPaddingLeft() + insets.left, viewActivity.getPaddingTop() + insets.top,
+				viewActivity.getPaddingRight() + insets.right, viewActivity.getPaddingBottom() + insets.bottom);
+		insets.left = insets.top = insets.right = insets.bottom = 0;
+		return true;
+	}
 
     /**
      * use the method to set up the activity which residemenu need to show;
@@ -92,7 +103,6 @@ public class ResideMenu extends FrameLayout{
         initValue(activity);
         setShadowAdjustScaleXByOrientation();
         viewDecor.addView(this, 0);
-        setViewPadding();
     }
 
     private void initValue(Activity activity){
@@ -241,17 +251,6 @@ public class ResideMenu extends FrameLayout{
 
     public OnMenuListener getMenuListener() {
         return menuListener;
-    }
-
-    /**
-     * we need the call the method before the menu show, because the
-     * padding of activity can't get at the moment of onCreateView();
-     */
-    private void setViewPadding(){
-        this.setPadding(viewActivity.getPaddingLeft(),
-                viewActivity.getPaddingTop(),
-                viewActivity.getPaddingRight(),
-                viewActivity.getPaddingBottom());
     }
 
     /**
