@@ -1,14 +1,18 @@
 package com.special.ResideMenuDemo;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 import com.special.ResideMenu.ResideMenu;
 import com.special.ResideMenu.ResideMenuItem;
+import com.special.ResideMenuDemo.R;
 
 public class MenuActivity extends FragmentActivity implements View.OnClickListener{
 
@@ -60,6 +64,9 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
 
         // You can disable a direction by setting ->
         // resideMenu.setSwipeDirectionDisable(ResideMenu.DIRECTION_RIGHT);
+
+        Button btn = new Button(this);
+        resideMenu.setLeftMenuView(btn);
 
         findViewById(R.id.title_bar_left_menu).setOnClickListener(new View.OnClickListener() {
             @Override
