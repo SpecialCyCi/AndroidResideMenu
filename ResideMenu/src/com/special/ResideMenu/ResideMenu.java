@@ -82,17 +82,17 @@ public class ResideMenu extends FrameLayout{
         layoutRightMenu = (LinearLayout) findViewById(R.id.layout_right_menu);
         imageViewBackground = (ImageView) findViewById(R.id.iv_background);
     }
-    
+
     @Override
-	protected boolean fitSystemWindows(Rect insets) {
-	    // Applies the content insets to the view's padding, consuming that content (modifying the insets to be 0), 
-	    // and returning true. This behavior is off by default and can be enabled through setFitsSystemWindows(boolean)
-	    // in api14+ devices.
-		this.setPadding(viewActivity.getPaddingLeft() + insets.left, viewActivity.getPaddingTop() + insets.top,
-				viewActivity.getPaddingRight() + insets.right, viewActivity.getPaddingBottom() + insets.bottom);
-		insets.left = insets.top = insets.right = insets.bottom = 0;
-		return true;
-	}
+    protected boolean fitSystemWindows(Rect insets) {
+        // Applies the content insets to the view's padding, consuming that content (modifying the insets to be 0),
+        // and returning true. This behavior is off by default and can be enabled through setFitsSystemWindows(boolean)
+        // in api14+ devices.
+        this.setPadding(viewActivity.getPaddingLeft() + insets.left, viewActivity.getPaddingTop() + insets.top,
+                viewActivity.getPaddingRight() + insets.right, viewActivity.getPaddingBottom() + insets.bottom);
+        insets.left = insets.top = insets.right = insets.bottom = 0;
+        return true;
+    }
 
     /**
      * use the method to set up the activity which residemenu need to show;
@@ -210,10 +210,10 @@ public class ResideMenu extends FrameLayout{
     private void rebuildMenu(){
         layoutLeftMenu.removeAllViews();
         layoutRightMenu.removeAllViews();
-        for(int i = 0; i < leftMenuItems.size() ; i ++)
-            layoutLeftMenu.addView(leftMenuItems.get(i), i);
-        for(int i = 0; i < rightMenuItems.size() ; i ++)
-            layoutRightMenu.addView(rightMenuItems.get(i), i);
+        for (ResideMenuItem leftMenuItem : leftMenuItems)
+            layoutLeftMenu.addView(leftMenuItem);
+        for (ResideMenuItem rightMenuItem : rightMenuItems)
+            layoutRightMenu.addView(rightMenuItem);
     }
 
     /**
@@ -272,7 +272,7 @@ public class ResideMenu extends FrameLayout{
     }
 
     /**
-     * close the reslide menu;
+     * close the menu;
      */
     public void closeMenu(){
 

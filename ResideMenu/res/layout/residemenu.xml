@@ -22,11 +22,11 @@
             android:scrollbars="none"
             android:paddingLeft="30dp"
             android:layout_width="150dp"
-            android:layout_height="fill_parent">
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical">
         <LinearLayout
                 android:id="@+id/layout_left_menu"
                 android:orientation="vertical"
-                android:layout_gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
@@ -38,12 +38,11 @@
             android:scrollbars="none"
             android:paddingRight="30dp"
             android:layout_width="150dp"
-            android:layout_height="fill_parent"
-            android:layout_gravity="right">
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical">
         <LinearLayout
                 android:id="@+id/layout_right_menu"
                 android:orientation="vertical"
-                android:layout_gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="right">
