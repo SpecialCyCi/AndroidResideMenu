@@ -29,5 +29,8 @@ proguard/
 .idea/
 
 .gradle/
+gradle/
+gradlew
+gradlew.bat
 build/
 .DS_Store

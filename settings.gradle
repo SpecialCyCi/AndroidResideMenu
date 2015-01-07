@@ -7,5 +7,5 @@ if (!System.properties['buildToolsVersion']) {
 }
 
 if (!System.properties['androidGradlePluginVersion']) {
-	System.properties['androidGradlePluginVersion'] = "0.12.+"
+	System.properties['androidGradlePluginVersion'] = "1.0.+"
 }

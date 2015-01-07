@@ -19,7 +19,6 @@ dependencies {
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
-    useOldManifestMerger true
 
     dexOptions {
         jumboMode = true
