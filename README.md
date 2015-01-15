@@ -30,6 +30,19 @@ Run in Android 2.3 +
 
 ## Installation
 
+### Gradle
+
+```
+repositories {
+    mavenCentral()
+}
+dependencies {
+    compile 'com.specyci:residemenu:1.6+'
+}
+```
+
+### Other
+
  1. import ResideMenu project to your workspace.
  2. make it as a dependency library project to your main project.
 <br>**( see [example][5] )**

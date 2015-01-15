@@ -29,6 +29,19 @@ ReisdeMenu 创意灵感来自于Dribbble[1][1]还有[2][2]，而这个是Android
 
 ## Installation
 
+### Gradle
+
+```
+repositories {
+    mavenCentral()
+}
+dependencies {
+    compile 'com.specyci:residemenu:1.6+'
+}
+```
+
+### Other
+
  直接导入ResideMenu项目并作为依赖项目<br>
  **[例子][6]**
 
