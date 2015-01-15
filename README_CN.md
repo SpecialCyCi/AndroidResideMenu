@@ -31,7 +31,7 @@ ReisdeMenu 创意灵感来自于Dribbble[1][1]还有[2][2]，而这个是Android
 
 ### Gradle
 
-```
+```gradle
 repositories {
     mavenCentral()
 }
