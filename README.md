@@ -32,7 +32,7 @@ Run in Android 2.3 +
 
 ### Gradle
 
-```
+```gradle
 repositories {
     mavenCentral()
 }
