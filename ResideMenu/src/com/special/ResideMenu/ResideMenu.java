@@ -29,7 +29,7 @@ public class ResideMenu extends FrameLayout{
 
     public  static final int DIRECTION_LEFT  = 0;
     public  static final int DIRECTION_RIGHT = 1;
-    private static final int PRESSED_MOVE_HORIZANTAL = 2;
+    private static final int PRESSED_MOVE_HORIZONTAL = 2;
     private static final int PRESSED_DOWN = 3;
     private static final int PRESSED_DONE = 4;
     private static final int PRESSED_MOVE_VERTICAL = 5;
@@ -41,18 +41,16 @@ public class ResideMenu extends FrameLayout{
     private ScrollView scrollViewLeftMenu;
     private ScrollView scrollViewRightMenu;
     private ScrollView scrollViewMenu;
-    /** the activity that view attach to */
+    /** Current attaching activity. */
     private Activity activity;
-    /** the decorview of the activity    */
+    /** The DecorView of current activity. */
     private ViewGroup viewDecor;
-    /** the viewgroup of the activity    */
     private TouchDisableView viewActivity;
-    /** the flag of menu open status     */
+    /** The flag of menu opening status. */
     private boolean              isOpened;
-    private GestureDetector gestureDetector;
     private float shadowAdjustScaleX;
     private float shadowAdjustScaleY;
-    /** the view which don't want to intercept touch event */
+    /** Views which need stop to intercept touch events. */
     private List<View> ignoredViews;
     private List<ResideMenuItem> leftMenuItems;
     private List<ResideMenuItem> rightMenuItems;
@@ -63,7 +61,7 @@ public class ResideMenu extends FrameLayout{
     private int scaleDirection = DIRECTION_LEFT;
     private int pressedState   = PRESSED_DOWN;
     private List<Integer> disabledSwipeDirection = new ArrayList<Integer>();
-    //valid scale factor is between 0.0f and 1.0f.
+    // Valid scale factor is between 0.0f and 1.0f.
     private float mScaleValue = 0.5f;
 
     public ResideMenu(Context context) {
@@ -95,7 +93,7 @@ public class ResideMenu extends FrameLayout{
     }
 
     /**
-     * use the method to set up the activity which residemenu need to show;
+     * Set up the activity;
      *
      * @param activity
      */
@@ -135,16 +133,16 @@ public class ResideMenu extends FrameLayout{
     }
 
     /**
-     * set the menu background picture;
+     * Set the background image of menu;
      *
-     * @param imageResrouce
+     * @param imageResource
      */
-    public void setBackground(int imageResrouce){
-        imageViewBackground.setImageResource(imageResrouce);
+    public void setBackground(int imageResource){
+        imageViewBackground.setImageResource(imageResource);
     }
 
     /**
-     * the visiblity of shadow under the activity view;
+     * The visibility of the shadow under the activity;
      *
      * @param isVisible
      */
@@ -156,8 +154,9 @@ public class ResideMenu extends FrameLayout{
     }
 
     /**
-     * add a single items to left menu;
+     * Add a single item to the left menu;
      *
+     * WARNING: It will be removed from v2.0.
      * @param menuItem
      */
     @Deprecated
@@ -167,7 +166,7 @@ public class ResideMenu extends FrameLayout{
     }
 
     /**
-     * add a single items;
+     * Add a single items;
      *
      * @param menuItem
      * @param direction
@@ -183,8 +182,7 @@ public class ResideMenu extends FrameLayout{
     }
 
     /**
-     * set the menu items by array list to left menu;
-     *
+     * WARNING: It will be removed from v2.0.
      * @param menuItems
      */
     @Deprecated
@@ -194,7 +192,7 @@ public class ResideMenu extends FrameLayout{
     }
 
     /**
-     * set the menu items by array list;
+     * Set menu items by a array;
      *
      * @param menuItems
      * @param direction
@@ -217,8 +215,7 @@ public class ResideMenu extends FrameLayout{
     }
 
     /**
-     * get the left menu items;
-     *
+     * WARNING: It will be removed from v2.0.
      * @return
      */
     @Deprecated
@@ -227,7 +224,7 @@ public class ResideMenu extends FrameLayout{
     }
 
     /**
-     * get the menu items;
+     * Return instances of menu items;
      *
      * @return
      */
@@ -239,8 +236,8 @@ public class ResideMenu extends FrameLayout{
     }
 
     /**
-     * if you need to do something on the action of closing or opening
-     * menu, set the listener here.
+     * If you need to do something on closing or opening menu,
+     * set a listener here.
      *
      * @return
      */
@@ -254,7 +251,7 @@ public class ResideMenu extends FrameLayout{
     }
 
     /**
-     * show the reside menu;
+     * Show the menu;
      */
     public void openMenu(int direction){
 
@@ -272,7 +269,7 @@ public class ResideMenu extends FrameLayout{
     }
 
     /**
-     * close the menu;
+     * Close the menu;
      */
     public void closeMenu(){
 
@@ -374,7 +371,7 @@ public class ResideMenu extends FrameLayout{
     };
 
     /**
-     * a helper method to build scale down animation;
+     * A helper method to build scale down animation;
      *
      * @param target
      * @param targetScaleX
@@ -396,7 +393,7 @@ public class ResideMenu extends FrameLayout{
     }
 
     /**
-     * a helper method to build scale up animation;
+     * A helper method to build scale up animation;
      *
      * @param target
      * @param targetScaleX
@@ -427,9 +424,9 @@ public class ResideMenu extends FrameLayout{
     }
 
     /**
-     * if there ware some view you don't want reside menu
-     * to intercept their touch event,you can use the method
-     * to set.
+     * If there were some view you don't want reside menu
+     * to intercept their touch event, you could add it to
+     * ignored views.
      *
      * @param v
      */
@@ -438,7 +435,7 @@ public class ResideMenu extends FrameLayout{
     }
 
     /**
-     * remove the view from ignored view list;
+     * Remove a view from ignored views;
      * @param v
      */
     public void removeIgnoredView(View v){
@@ -446,14 +443,14 @@ public class ResideMenu extends FrameLayout{
     }
 
     /**
-     * clear the ignored view list;
+     * Clear the ignored view list;
      */
     public void clearIgnoredViewList(){
         ignoredViews.clear();
     }
 
     /**
-     * if the motion evnent was relative to the view
+     * If the motion event was relative to the view
      * which in ignored view list,return true;
      *
      * @param ev
@@ -507,7 +504,7 @@ public class ResideMenu extends FrameLayout{
                     break;
 
                 if(pressedState != PRESSED_DOWN &&
-                        pressedState != PRESSED_MOVE_HORIZANTAL)
+                        pressedState != PRESSED_MOVE_HORIZONTAL)
                     break;
 
                 int xOffset = (int) (ev.getX() - lastActionDownX);
@@ -519,10 +516,10 @@ public class ResideMenu extends FrameLayout{
                         break;
                     }
                     if(xOffset < -50 || xOffset > 50) {
-                        pressedState = PRESSED_MOVE_HORIZANTAL;
+                        pressedState = PRESSED_MOVE_HORIZONTAL;
                         ev.setAction(MotionEvent.ACTION_CANCEL);
                     }
-                } else if(pressedState == PRESSED_MOVE_HORIZANTAL) {
+                } else if(pressedState == PRESSED_MOVE_HORIZONTAL) {
                     if (currentActivityScaleX < 0.95)
                         showScrollViewMenu(scrollViewMenu);
 
@@ -542,7 +539,7 @@ public class ResideMenu extends FrameLayout{
             case MotionEvent.ACTION_UP:
 
                 if (isInIgnoredView) break;
-                if (pressedState != PRESSED_MOVE_HORIZANTAL) break;
+                if (pressedState != PRESSED_MOVE_HORIZONTAL) break;
 
                 pressedState = PRESSED_DONE;
                 if (isOpened()){
@@ -582,12 +579,12 @@ public class ResideMenu extends FrameLayout{
     public interface OnMenuListener{
 
         /**
-         * the method will call on the finished time of opening menu's animation.
+         * This method will be called at the finished time of opening menu animations.
          */
         public void openMenu();
 
         /**
-         * the method will call on the finished time of closing menu's animation  .
+         * This method will be called at the finished time of closing menu animations.
          */
         public void closeMenu();
     }
