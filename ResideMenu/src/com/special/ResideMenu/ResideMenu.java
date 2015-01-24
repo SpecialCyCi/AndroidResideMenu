@@ -47,7 +47,7 @@ public class ResideMenu extends FrameLayout{
     private ViewGroup viewDecor;
     private TouchDisableView viewActivity;
     /** The flag of menu opening status. */
-    private boolean              isOpened;
+    private boolean isOpened;
     private float shadowAdjustScaleX;
     private float shadowAdjustScaleY;
     /** Views which need stop to intercept touch events. */
@@ -254,33 +254,42 @@ public class ResideMenu extends FrameLayout{
      * Show the menu;
      */
     public void openMenu(int direction){
+        openMenu(direction, true);
+    }
 
+    public void openMenu(int direction, boolean withAnimations){
         setScaleDirection(direction);
 
         isOpened = true;
-        AnimatorSet scaleDown_activity = buildScaleDownAnimation(viewActivity, mScaleValue, mScaleValue);
-        AnimatorSet scaleDown_shadow = buildScaleDownAnimation(imageViewShadow,
-        		mScaleValue + shadowAdjustScaleX, mScaleValue + shadowAdjustScaleY);
-        AnimatorSet alpha_menu = buildMenuAnimation(scrollViewMenu, 1.0f);
-        scaleDown_shadow.addListener(animationListener);
-        scaleDown_activity.playTogether(scaleDown_shadow);
-        scaleDown_activity.playTogether(alpha_menu);
-        scaleDown_activity.start();
+        int duration = withAnimations ? 250 : 0;
+        AnimatorSet activityScaleDown = buildScaleDownAnimation(viewActivity, mScaleValue, mScaleValue, duration);
+        AnimatorSet shadowScaleDown = buildScaleDownAnimation(imageViewShadow,
+        		mScaleValue + shadowAdjustScaleX, mScaleValue + shadowAdjustScaleY, duration);
+        AnimatorSet menuAlpha = buildMenuAnimation(scrollViewMenu, 1.0f, duration);
+        shadowScaleDown.addListener(animationListener);
+        activityScaleDown.playTogether(shadowScaleDown);
+        activityScaleDown.playTogether(menuAlpha);
+        activityScaleDown.start();
     }
 
     /**
      * Close the menu;
      */
     public void closeMenu(){
+        closeMenu(true);
+    }
+
+    public void closeMenu(boolean withAnimations){
 
         isOpened = false;
-        AnimatorSet scaleUp_activity = buildScaleUpAnimation(viewActivity, 1.0f, 1.0f);
-        AnimatorSet scaleUp_shadow = buildScaleUpAnimation(imageViewShadow, 1.0f, 1.0f);
-        AnimatorSet alpha_menu = buildMenuAnimation(scrollViewMenu, 0.0f);
-        scaleUp_activity.addListener(animationListener);
-        scaleUp_activity.playTogether(scaleUp_shadow);
-        scaleUp_activity.playTogether(alpha_menu);
-        scaleUp_activity.start();
+        int duration = withAnimations ? 250 : 0;
+        AnimatorSet activityScaleUp = buildScaleUpAnimation(viewActivity, 1.0f, 1.0f, duration);
+        AnimatorSet shadowScaleUp = buildScaleUpAnimation(imageViewShadow, 1.0f, 1.0f, duration);
+        AnimatorSet alpha_menu = buildMenuAnimation(scrollViewMenu, 0.0f, duration);
+        activityScaleUp.addListener(animationListener);
+        activityScaleUp.playTogether(shadowScaleUp);
+        activityScaleUp.playTogether(alpha_menu);
+        activityScaleUp.start();
     }
 
     @Deprecated
@@ -318,12 +327,21 @@ public class ResideMenu extends FrameLayout{
     }
 
     /**
-     * return the flag of menu status;
+     * Return the flag of menu status;
      *
      * @return
      */
     public boolean isOpened() {
         return isOpened;
+    }
+
+    /**
+     * Return the current opening direction of menu.
+     *
+     * @return
+     */
+    public int getCurrentDirection() {
+        return scaleDirection;
     }
 
     private OnClickListener viewActivityOnClickListener = new OnClickListener() {
@@ -345,7 +363,7 @@ public class ResideMenu extends FrameLayout{
 
         @Override
         public void onAnimationEnd(Animator animation) {
-            // reset the view;
+            // Reset the view;
             if(isOpened()){
                 viewActivity.setTouchDisable(true);
                 viewActivity.setOnClickListener(viewActivityOnClickListener);
@@ -378,7 +396,8 @@ public class ResideMenu extends FrameLayout{
      * @param targetScaleY
      * @return
      */
-    private AnimatorSet buildScaleDownAnimation(View target,float targetScaleX,float targetScaleY){
+    private AnimatorSet buildScaleDownAnimation(
+            View target,float targetScaleX, float targetScaleY, int duration){
 
         AnimatorSet scaleDown = new AnimatorSet();
         scaleDown.playTogether(
@@ -388,7 +407,7 @@ public class ResideMenu extends FrameLayout{
 
         scaleDown.setInterpolator(AnimationUtils.loadInterpolator(activity,
                 android.R.anim.decelerate_interpolator));
-        scaleDown.setDuration(250);
+        scaleDown.setDuration(duration);
         return scaleDown;
     }
 
@@ -400,7 +419,8 @@ public class ResideMenu extends FrameLayout{
      * @param targetScaleY
      * @return
      */
-    private AnimatorSet buildScaleUpAnimation(View target,float targetScaleX,float targetScaleY){
+    private AnimatorSet buildScaleUpAnimation(
+            View target,float targetScaleX,float targetScaleY, int duration){
 
         AnimatorSet scaleUp = new AnimatorSet();
         scaleUp.playTogether(
@@ -408,18 +428,18 @@ public class ResideMenu extends FrameLayout{
                 ObjectAnimator.ofFloat(target, "scaleY", targetScaleY)
         );
 
-        scaleUp.setDuration(250);
+        scaleUp.setDuration(duration);
         return scaleUp;
     }
 
-    private AnimatorSet buildMenuAnimation(View target, float alpha){
+    private AnimatorSet buildMenuAnimation(View target, float alpha, int duration){
 
         AnimatorSet alphaAnimation = new AnimatorSet();
         alphaAnimation.playTogether(
                 ObjectAnimator.ofFloat(target, "alpha", alpha)
         );
 
-        alphaAnimation.setDuration(250);
+        alphaAnimation.setDuration(duration);
         return alphaAnimation;
     }
 
@@ -600,4 +620,5 @@ public class ResideMenu extends FrameLayout{
             removeView(scrollViewMenu);
         }
     }
+
 }

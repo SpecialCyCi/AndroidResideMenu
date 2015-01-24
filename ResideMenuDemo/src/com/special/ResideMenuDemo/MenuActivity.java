@@ -18,6 +18,8 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
     private ResideMenuItem itemProfile;
     private ResideMenuItem itemCalendar;
     private ResideMenuItem itemSettings;
+    private static final String MENU_STATE = "MenuActivity.MENU_STATE";
+    private static final String MENU_DIRECTION = "MenuActivity.MENU_DIRECTION";
 
     /**
      * Called when the activity is first created.
@@ -27,19 +29,20 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         mContext = this;
-        setUpMenu();
-        if( savedInstanceState == null )
+        setUpMenu(savedInstanceState);
+        if( savedInstanceState == null ) {
             changeFragment(new HomeFragment());
+        }
     }
 
-    private void setUpMenu() {
+
+    private void setUpMenu(Bundle savedInstanceState) {
 
         // attach to current activity;
         resideMenu = new ResideMenu(this);
         resideMenu.setBackground(R.drawable.menu_background);
         resideMenu.attachToActivity(this);
         resideMenu.setMenuListener(menuListener);
-        //valid scale factor is between 0.0f and 1.0f. leftmenu'width is 150dip. 
         resideMenu.setScaleValue(0.6f);
 
         // create menu items;
@@ -73,6 +76,11 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
                 resideMenu.openMenu(ResideMenu.DIRECTION_RIGHT);
             }
         });
+
+        // Restore the menu state by savedInstanceState.
+        if ( savedInstanceState != null && savedInstanceState.getBoolean(MENU_STATE) == true ) {
+            resideMenu.openMenu(savedInstanceState.getInt(MENU_DIRECTION));
+        }
     }
 
     @Override
@@ -117,8 +125,16 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
                 .commit();
     }
 
-    // What good method is to access resideMenu？
     public ResideMenu getResideMenu(){
         return resideMenu;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (resideMenu != null) {
+            outState.putBoolean(MENU_STATE, resideMenu.isOpened());
+            outState.putInt(MENU_DIRECTION, resideMenu.getCurrentDirection());
+        }
     }
 }
