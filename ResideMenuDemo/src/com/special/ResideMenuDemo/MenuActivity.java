@@ -36,6 +36,7 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
 
         // attach to current activity;
         resideMenu = new ResideMenu(this);
+        resideMenu.setUse3D(true);
         resideMenu.setBackground(R.drawable.menu_background);
         resideMenu.attachToActivity(this);
         resideMenu.setMenuListener(menuListener);

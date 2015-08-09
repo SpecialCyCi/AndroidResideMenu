@@ -64,6 +64,9 @@ public class ResideMenu extends FrameLayout{
     // Valid scale factor is between 0.0f and 1.0f.
     private float mScaleValue = 0.5f;
 
+    private boolean mUse3D;
+    private static final int ROTATE_Y_ANGLE = 10;
+
     public ResideMenu(Context context) {
         super(context);
         initViews(context);
@@ -386,6 +389,11 @@ public class ResideMenu extends FrameLayout{
                 ObjectAnimator.ofFloat(target, "scaleY", targetScaleY)
         );
 
+        if (mUse3D) {
+            int angle = scaleDirection == DIRECTION_LEFT ? -ROTATE_Y_ANGLE : ROTATE_Y_ANGLE;
+            scaleDown.playTogether(ObjectAnimator.ofFloat(target, "rotationY", angle));
+        }
+
         scaleDown.setInterpolator(AnimationUtils.loadInterpolator(activity,
                 android.R.anim.decelerate_interpolator));
         scaleDown.setDuration(250);
@@ -407,6 +415,10 @@ public class ResideMenu extends FrameLayout{
                 ObjectAnimator.ofFloat(target, "scaleX", targetScaleX),
                 ObjectAnimator.ofFloat(target, "scaleY", targetScaleY)
         );
+
+        if (mUse3D) {
+            scaleUp.playTogether(ObjectAnimator.ofFloat(target, "rotationY", 0));
+        }
 
         scaleUp.setDuration(250);
         return scaleUp;
@@ -574,6 +586,10 @@ public class ResideMenu extends FrameLayout{
     
     public void setScaleValue(float scaleValue) {
         this.mScaleValue = scaleValue;
+    }
+
+    public void setUse3D(boolean use3D) {
+        mUse3D = use3D;
     }
 
     public interface OnMenuListener{

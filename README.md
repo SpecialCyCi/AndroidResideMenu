@@ -8,6 +8,8 @@ And thanks to the authors for the above idea and contribution.
 <img src="https://github.com/SpecialCyCi/AndroidResideMenu/raw/master/1.png" width="320" height="568" />
 <img src="https://github.com/SpecialCyCi/AndroidResideMenu/raw/master/2.gif" width="320" height="568" />
 
+Now with 3D support !
+<img src="https://github.com/SpecialCyCi/AndroidResideMenu/raw/master/3Dsupport.png" width="320" height="568" />
 ## DEMO
 This copy is the demo.
 
