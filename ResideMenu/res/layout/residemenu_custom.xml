@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <ImageView
+        android:id="@+id/iv_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop" />
+
+    <ImageView
+        android:id="@+id/iv_shadow"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@drawable/shadow"
+        android:scaleType="fitXY" />
+
+    <RelativeLayout
+        android:id="@+id/sv_menu_holder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+        
+    </RelativeLayout>
+
+</merge>
