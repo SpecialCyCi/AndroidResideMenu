@@ -1,16 +1,16 @@
 #AndroidResideMenu
 ------
 
-The idea of ResideMenu is from Dribble [2] and [3]. It has come true and run in iOS devices. [iOS ResideMenu][4]
+The idea of ResideMenu is from Dribble [1] and [2]. It has come true and run in iOS devices. [iOS ResideMenu][3]
 This project is the ResideMenu Android version. The visual effect is partly referred to iOS version of ResideMenu.
 And thanks to the authors for the above idea and contribution.
-<img src="https://github.com/SpecialCyCi/AndroidResideMenu/raw/master/1.png" width="320" height="568" />
+
 <img src="https://github.com/SpecialCyCi/AndroidResideMenu/raw/master/2.gif" width="320" height="568" />
 
 ## Fixes
-[Overlapping Soft NavigationBar to contentUI][6]
+[Overlapping Soft NavigationBar to contentUI][4]
 
-## [Default Usage][7]
+## [Default Usage][5]
 
 ## Custom Usage
 
@@ -35,9 +35,8 @@ As your configuration's completed, now you can customize side menus by getting i
         // TODO: Do whatever you need to with rightMenu
 ```
 
-  [2]: http://dribbble.com/shots/1116265-Instasave-iPhone-App
-  [3]: http://dribbble.com/shots/1114754-Social-Feed-iOS7
-  [4]: https://github.com/romaonthego/RESideMenu
-  [5]: https://github.com/SpecialCyCi/AndroidResideMenu/blob/master/ResideMenuDemo/project.properties
-  [6]: https://github.com/SpecialCyCi/AndroidResideMenu/issues/68
-  [7]: https://github.com/SpecialCyCi/AndroidResideMenu#usage
+  [1]: http://dribbble.com/shots/1116265-Instasave-iPhone-App
+  [2]: http://dribbble.com/shots/1114754-Social-Feed-iOS7
+  [3]: https://github.com/romaonthego/RESideMenu
+  [4]: https://github.com/SpecialCyCi/AndroidResideMenu/issues/68
+  [5]: https://github.com/SpecialCyCi/AndroidResideMenu#usage
