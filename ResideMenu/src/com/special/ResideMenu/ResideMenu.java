@@ -3,14 +3,13 @@ package com.special.ResideMenu;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Rect;
+import android.os.Build;
 import android.util.DisplayMetrics;
 import android.view.*;
 import android.view.animation.AnimationUtils;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
+import android.widget.*;
 
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorSet;
@@ -146,7 +145,7 @@ public class ResideMenu extends FrameLayout {
 
         // This is added to fix soft navigationBar's overlapping to content above LOLLIPOP
         int bottomPadding = viewActivity.getPaddingBottom() + insets.bottom;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= 21) {
             bottomPadding += getNavigationBarHeight();
         }
 
@@ -686,13 +685,13 @@ public class ResideMenu extends FrameLayout {
         public void closeMenu();
     }
 
-    private void showScrollViewMenu(ScrollView scrollViewMenu) {
+    private void showScrollViewMenu(View scrollViewMenu) {
         if (scrollViewMenu != null && scrollViewMenu.getParent() == null) {
             addView(scrollViewMenu);
         }
     }
 
-    private void hideScrollViewMenu(ScrollView scrollViewMenu) {
+    private void hideScrollViewMenu(View scrollViewMenu) {
         if (scrollViewMenu != null && scrollViewMenu.getParent() != null) {
             removeView(scrollViewMenu);
         }
