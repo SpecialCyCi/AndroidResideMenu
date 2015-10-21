@@ -145,7 +145,9 @@ public class ResideMenu extends FrameLayout {
 
         // This is added to fix soft navigationBar's overlapping to content above LOLLIPOP
         int bottomPadding = viewActivity.getPaddingBottom() + insets.bottom;
-        if (Build.VERSION.SDK_INT >= 21) {
+        boolean hasBackKey = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK);
+        boolean hasHomeKey = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_HOME);
+        if (!hasBackKey || !hasHomeKey) {//there's a navigation bar
             bottomPadding += getNavigationBarHeight();
         }
 
