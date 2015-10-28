@@ -536,10 +536,19 @@ public class ResideMenu extends FrameLayout{
                         showScrollViewMenu(scrollViewMenu);
 
                     float targetScale = getTargetScale(ev.getRawX());
+                    if (mUse3D) {
+                        int angle = scaleDirection == DIRECTION_LEFT ? -ROTATE_Y_ANGLE : ROTATE_Y_ANGLE;
+                        angle *= (1 - targetScale) * 2;
+                        ViewHelper.setRotationY(viewActivity, angle);
+
+                        ViewHelper.setScaleX(imageViewShadow, targetScale - shadowAdjustScaleX);
+                        ViewHelper.setScaleY(imageViewShadow, targetScale - shadowAdjustScaleY);
+                    } else {
+                        ViewHelper.setScaleX(imageViewShadow, targetScale + shadowAdjustScaleX);
+                        ViewHelper.setScaleY(imageViewShadow, targetScale + shadowAdjustScaleY);
+                    }
                     ViewHelper.setScaleX(viewActivity, targetScale);
                     ViewHelper.setScaleY(viewActivity, targetScale);
-                    ViewHelper.setScaleX(imageViewShadow, targetScale + shadowAdjustScaleX);
-                    ViewHelper.setScaleY(imageViewShadow, targetScale + shadowAdjustScaleY);
                     ViewHelper.setAlpha(scrollViewMenu, (1 - targetScale) * 2.0f);
 
                     lastRawX = ev.getRawX();
